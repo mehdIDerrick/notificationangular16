@@ -8,7 +8,8 @@ import { FcmService } from '../fcm.service';
 })
 export class AppComponent implements OnInit {
   title = 'FCM Angular App';
-
+  notificationCount: number = 0;
+  notifications: { message: string }[] = [];
   constructor(private fcmService: FcmService) {}
 
   ngOnInit() {
@@ -17,6 +18,9 @@ export class AppComponent implements OnInit {
 
     // Optionally, subscribe to messages
     this.fcmService.currentMessage.subscribe((message) => {
+      this.notifications.push({ message: message.notification?.body || 'New notification' });
+      this.notificationCount++;
+      console.log('Message received: ', this.notificationCount);
       console.log('Message received: ', message);
       // Handle the message, e.g., display notification or update UI
     });
